@@ -478,12 +478,15 @@ class Frame(tk.Frame):
             self.btnSalirHistoria = tk.Button(self.topHistoriaMedica, text='Salir', command=self.salirTop)
             self.btnSalirHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000000',cursor='hand2', activebackground='#6F6F6F')    
             self.btnSalirHistoria.grid(row=2, column=9, padx=10, pady=5)
+
+            self.idPersona = None   
+
         except:
             title = 'Historia Medica'
             mensaje = 'Error al mostrar historial'
             messagebox.showerror(title, mensaje)
+            self.idPersona = None       
         
-
     def topAgregarHistoria(self):
         self.topAHistoria = Toplevel()
         self.topAHistoria.title('AGREGAR HISTORIA')
@@ -585,6 +588,8 @@ class Frame(tk.Frame):
         self.btnSalirAgregarHistoria = tk.Button(self.frameFechaHistoria, text='Salir', command=self.topAHistoria.destroy)
         self.btnSalirAgregarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000000', cursor='hand2', activebackground='#646464')
         self.btnSalirAgregarHistoria.grid(row=2, column=2, padx=10, pady=5)
+
+        self.idPersona = None   
 
     def editar_fecha(self, event):
         # Habilitar la edición del campo al hacer clic con el mouse
@@ -755,6 +760,7 @@ class Frame(tk.Frame):
                  )
              self.topAHistoria.destroy()
              self.topHistoriaMedica.destroy()
+             self.idPersona = None   
          except Exception as e:
                 title = 'Agregar Historia'
                 mensaje = 'Error al agregar historia Medica'
@@ -782,7 +788,10 @@ class Frame(tk.Frame):
 
 
     def salirTop(self):
-        self.topHistoriaMedica.destroy()        
+        self.topHistoriaMedica.destroy()
+        self.topAHistoria.destroy()     
+        self.topEditarHistoria.destroy()         
+        self.idPersona = None 
 
     def editarPaciente(self):
         try:

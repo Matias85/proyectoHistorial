@@ -1,12 +1,15 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import Button, ttk, scrolledtext, Toplevel
+from tkinter import Button, ttk, scrolledtext, Toplevel, LabelFrame
 from tkinter import messagebox
 from modelo.pacienteDao import Persona, guardarDatoPaciente, listarCondicion, listar, editarDatoPaciente, eliminarPaciente
+from modelo.historiaMedicaDao import historiaMedica, guardarHistoria, listarHistoria, eliminarHistoria, editarHistoria
 import tkcalendar as tc
+import traceback
 from tkcalendar import *
 from tkcalendar import Calendar
 from datetime import date, datetime
+
 
 class Frame(tk.Frame):
     def __init__(self, root):
@@ -15,6 +18,9 @@ class Frame(tk.Frame):
         self.pack()
         self.config(bg='#CDD8FF')
         self.idPersona = None
+        self.idPersonaHistoria = None
+        self.idHistoriaMedica = None
+        self.idHistoriaMedicaEditar = None
         self.camposPaciente()
         self.deshabilitar()
         self.tablaPaciente()
@@ -37,7 +43,7 @@ class Frame(tk.Frame):
         self.lblFechaDeNacimiento = tk.Label(self, text='Fecha de Nacimiento: ')
         self.lblFechaDeNacimiento.config(font=('ARIAL',15, 'bold'), bg='#CDD8FF')
         self.lblFechaDeNacimiento.grid(column=0, row=3, padx=10, pady=5)
-
+        
         self.lblEdad = tk.Label(self, text='Edad: ')
         self.lblEdad.config(font=('ARIAL',15, 'bold'), bg='#CDD8FF')
         self.lblEdad.grid(column=0, row=4, padx=10, pady=5)
@@ -200,20 +206,21 @@ class Frame(tk.Frame):
         self.btnCalendario.grid(column=3, row=3, padx=10, pady=5, columnspan=1)
 
     def vistaCalendario(self):
-        self.calendario = Toplevel()
-        self.calendario.title("FECHA DE NACIMIENTO")
-        self.calendario.resizable(0,0)
-        self.calendario.config(bg='#CDD8FF')
+        self.topCalendario = Toplevel()
+        self.topCalendario.title("FECHA DE NACIMIENTO")
+        self.topCalendario.resizable(0,0)
+        self.topCalendario.config(bg='#CDD8FF')
 
         default_date = date(1990, 1, 1).strftime('%d/%m/%Y')
         self.svCalendario = StringVar(value=default_date)
              
-        self.calendar = tc.Calendar(self.calendario, selectmode='day', year=1990, month=1, day=1, locale='es_US', bg='#777777', fg='#FFFFFF', headersbackground='#B6DDFE', textvariable=self.svCalendario, cursor='hand2', date_pattern='dd/mm/yyyy')
+        self.calendar = tc.Calendar(self.topCalendario, selectmode='day', year=1990, month=1, day=1, locale='es_US', bg='#777777', fg='#FFFFFF', headersbackground='#B6DDFE', textvariable=self.svCalendario, cursor='hand2', date_pattern='dd/mm/yyyy')
         self.calendar.pack(pady=22)
         self.calendar.grid(row=1, column=0)
 
         #TRACE ENVIAR FECHA
         self.svCalendario.trace('w',self.enviarFecha)
+        
 
     def enviarFecha(self, *args):
         self.svFechaDeNacimiento.set(self.svCalendario.get())  # Sin el prefijo ' ' para la fecha de nacimiento
@@ -265,6 +272,7 @@ class Frame(tk.Frame):
 
         self.deshabilitar()
         self.tablaPaciente() 
+        self.topCalendario.destroy()
 
     def habilitar(self):
         # self.idPersona = None
@@ -394,13 +402,385 @@ class Frame(tk.Frame):
         self.btnEliminarPaciente.config(width=20,font=('ARIAL',12,'bold'), fg='#DAD5D6', bg='#8A0000', activebackground='#D58A8A', cursor='hand2')
         self.btnEliminarPaciente.grid(row=16, column=1, padx=10, pady=5)
 
-        self.btnHistorialPaciente = tk.Button(self, text='Historial Paciente')
+        self.btnHistorialPaciente = tk.Button(self, text='Historial Paciente', command=self.historiaMedica)
         self.btnHistorialPaciente.config(width=20,font=('ARIAL',12,'bold'), fg='#DAD5D6', bg='#007C79', activebackground='#99F2F0', cursor='hand2')
         self.btnHistorialPaciente.grid(row=16, column=2, padx=10, pady=5)
 
         self.btnSalir = tk.Button(self, text='Salir', command=self.root.destroy)
         self.btnSalir.config(width=20,font=('ARIAL',12,'bold'), fg='#DAD5D6', bg='#000000', activebackground='#5E5E5E', cursor='hand2')
         self.btnSalir.grid(row=16, column=5, padx=10, pady=5)
+
+        
+   
+    def historiaMedica(self):
+
+        try:
+            if self.idPersona == None:
+                self.idPersona = self.tabla.item(self.tabla.selection())['text']
+                self.idPersonaHistoria = self.tabla.item(self.tabla.selection())['text']
+            if (self.idPersona > 0):
+                idPersona = self.idPersona
+
+            self.topHistoriaMedica = Toplevel()
+            self.topHistoriaMedica.title('HISTORIAL MEDICO')
+            self.topHistoriaMedica.resizable(0,0)
+            self.topHistoriaMedica.config(bg='#CDD8FF')
+
+            self.listaHistoria = listarHistoria(idPersona)  
+            self.tablaHistoria = ttk.Treeview(self.topHistoriaMedica, column=('Paciente', 'Fecha Historia', 'Motivo De Consulta', 'Antecedente De Enfermedad Actual', 'Examen Fisico', 'Tricoscopia', 'Indicaciones', 'Estudios Solicitados', 'Tratamiento Realizado'), height=30)
+            self.tablaHistoria.grid(row=0, column=0, columnspan=10, sticky='nse')
+
+            self.scrollHistoria = ttk.Scrollbar(self.topHistoriaMedica, orient='vertical', command=self.tablaHistoria.yview)
+            self.scrollHistoria.grid(row=0, column=11, sticky='nse')
+
+            self.tablaHistoria.configure(yscrollcommand=self.scrollHistoria.set)
+            
+            self.tablaHistoria.heading('#0', text='ID')
+            self.tablaHistoria.heading('#1', text='Paciente')
+            self.tablaHistoria.heading('#2', text='Fecha y Hora')
+            self.tablaHistoria.heading('#3', text='Motivo de Consulta')
+            self.tablaHistoria.heading('#4', text='Antecedente De Enfermedad Actual')
+            self.tablaHistoria.heading('#5', text='Examen Fisico')
+            self.tablaHistoria.heading('#6', text='Tricoscopia')
+            self.tablaHistoria.heading('#7', text='Indicaciones')
+            self.tablaHistoria.heading('#8', text='Estudios Solicitados')
+            self.tablaHistoria.heading('#9', text='Tratamiento Realizado')
+
+            self.tablaHistoria.column('#0', anchor=CENTER, width=50)
+            self.tablaHistoria.column('#1', anchor=CENTER, width=100)
+            self.tablaHistoria.column('#2', anchor=CENTER, width=200)
+            self.tablaHistoria.column('#3', anchor=CENTER, width=300)
+            self.tablaHistoria.column('#4', anchor=CENTER, width=350)
+            self.tablaHistoria.column('#5', anchor=CENTER, width=300)
+            self.tablaHistoria.column('#6', anchor=CENTER, width=300)
+            self.tablaHistoria.column('#7', anchor=CENTER, width=400)
+            self.tablaHistoria.column('#8', anchor=CENTER, width=350)
+            self.tablaHistoria.column('#9', anchor=CENTER, width=500)
+           
+
+            for p in self.listaHistoria:
+                self.tablaHistoria.insert('',0, text=p[0], values=(p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]))       
+                 
+                               
+                   
+            self.btnGuardarHistoria = tk.Button(self.topHistoriaMedica, text='Agregar Historia', command=self.topAgregarHistoria)
+            self.btnGuardarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#002771',cursor='hand2', activebackground='#7198E0')    
+            self.btnGuardarHistoria.grid(row=2, column=0, padx=10, pady=5)
+
+            self.btnEditarHistoria = tk.Button(self.topHistoriaMedica, text='Editar Historia', command=self.topEditarHistorialMedico)
+            self.btnEditarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#3A005D',cursor='hand2', activebackground='#B47CD6')    
+            self.btnEditarHistoria.grid(row=2, column=1, padx=10, pady=5)
+
+            self.btnEliminarHistoria = tk.Button(self.topHistoriaMedica, text='Eliminar Historia', command=self.eliminarHistorialMedico)
+            self.btnEliminarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#890011',cursor='hand2', activebackground='#DB939C')    
+            self.btnEliminarHistoria.grid(row=2, column=2, padx=10, pady=5)
+
+            self.btnSalirHistoria = tk.Button(self.topHistoriaMedica, text='Salir', command=self.salirTop)
+            self.btnSalirHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000000',cursor='hand2', activebackground='#6F6F6F')    
+            self.btnSalirHistoria.grid(row=2, column=9, padx=10, pady=5)
+        except:
+            title = 'Historia Medica'
+            mensaje = 'Error al mostrar historial'
+            messagebox.showerror(title, mensaje)
+        
+
+    def topAgregarHistoria(self):
+        self.topAHistoria = Toplevel()
+        self.topAHistoria.title('AGREGAR HISTORIA')
+        self.topAHistoria.resizable(0,0)
+        self.topAHistoria.config(bg='#CDD8FF')
+        #FRAME 1
+        self.frameDatosHistoria = tk.LabelFrame(self.topAHistoria)
+        self.frameDatosHistoria.config(bg='#CDD8FF')
+        self.frameDatosHistoria.pack(fill="both", expand="yes", pady=10, padx=20)
+
+        #LABELS AGREGAR HISTORIA MEDICA
+        self.lblMotivoDeConsultaHistoria = tk.Label(self.frameDatosHistoria, text='Motivo de Consulta', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblMotivoDeConsultaHistoria.grid(row=0, column=0, padx=5, pady=3)
+        
+        self.lblAntecedenteDeEnfermedadActualHistoria = tk.Label(self.frameDatosHistoria, text='Antecedente De Enfermedad Actual', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblAntecedenteDeEnfermedadActualHistoria.grid(row=2, column=0, padx=5, pady=3)
+
+        self.lblExamenFisicoHistoria = tk.Label(self.frameDatosHistoria, text='Examen Fisico', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblExamenFisicoHistoria.grid(row=4, column=0, padx=5, pady=3)
+
+        self.lblTricoscopiaHistoria = tk.Label(self.frameDatosHistoria, text='Tricoscopia', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblTricoscopiaHistoria.grid(row=6, column=0, padx=5, pady=3)
+
+        self.lblIndicacionesHistoria = tk.Label(self.frameDatosHistoria, text='Indicaciones', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblIndicacionesHistoria.grid(row=8, column=0, padx=5, pady=3)
+
+        self.lblEstudiosSolicitadosHistoria = tk.Label(self.frameDatosHistoria, text='Estudios Solicitados', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblEstudiosSolicitadosHistoria.grid(row=10, column=0, padx=5, pady=3)
+
+        self.lblTratamientoRealizadoHistoria = tk.Label(self.frameDatosHistoria, text='Tratamiento Realizado', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblTratamientoRealizadoHistoria.grid(row=12, column=0, padx=5, pady=3)
+
+        #ENTRY AGREGA HISTORIA MEDICA
+        
+        self.svMotivoDeConsultaHistoria = tk.StringVar()
+        self.motivoDeConsultaHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svMotivoDeConsultaHistoria)
+        self.motivoDeConsultaHistoria.config(width=60, font=('ARIAL', 15))
+        self.motivoDeConsultaHistoria.grid(row=1, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svAntecedenteDeEnfermedadActualHistoria = tk.StringVar()
+        self.antecedenteDeEnfermedadActualHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svAntecedenteDeEnfermedadActualHistoria)
+        self.antecedenteDeEnfermedadActualHistoria.config(width=60, font=('ARIAL', 15))
+        self.antecedenteDeEnfermedadActualHistoria.grid(row=3, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svExamenFisicoHistoria = tk.StringVar()
+        self.examenFisicoHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svExamenFisicoHistoria)
+        self.examenFisicoHistoria.config(width=60, font=('ARIAL', 15))
+        self.examenFisicoHistoria.grid(row=5, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svTricoscopiaHistoria = tk.StringVar()
+        self.tricoscopiaHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svTricoscopiaHistoria)
+        self.tricoscopiaHistoria.config(width=60, font=('ARIAL', 15))
+        self.tricoscopiaHistoria.grid(row=7, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svIndicacionesHistoria = tk.StringVar()
+        self.indicacionesHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svIndicacionesHistoria)
+        self.indicacionesHistoria.config(width=60, font=('ARIAL', 15))
+        self.indicacionesHistoria.grid(row=9, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svEstudiosSolicitadosHistoria = tk.StringVar()
+        self.estudiosSolicitadosHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svEstudiosSolicitadosHistoria)
+        self.estudiosSolicitadosHistoria.config(width=60, font=('ARIAL', 15))
+        self.estudiosSolicitadosHistoria.grid(row=11, column=0, padx=5, pady=3, columnspan=2)
+
+        self.svTratamientoRealizadoHistoria = tk.StringVar()
+        self.tratamientoRealizadoHistoria = tk.Entry(self.frameDatosHistoria, textvariable=self.svTratamientoRealizadoHistoria)
+        self.tratamientoRealizadoHistoria.config(width=60, font=('ARIAL', 15))
+        self.tratamientoRealizadoHistoria.grid(row=13, column=0, padx=5, pady=3, columnspan=2)
+        #FRAME 2
+        self.frameFechaHistoria = tk.LabelFrame(self.topAHistoria)
+        self.frameFechaHistoria.config(bg='#CDD8FF')
+        self.frameFechaHistoria.pack(fill='both', expand='yes', padx=20, pady=10)
+
+        #LABEL FECHA AGREGAR HISTORIA
+
+        self.lblFechaHistoria = tk.Label(self.frameFechaHistoria, text='Fecha y Hora', width=20, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+        self.lblFechaHistoria.grid(row=1, column=0, padx=5, pady=3)
+
+        #ENTRY FECHA AGREGAR HISTORIA
+
+        self.svFechaHistoria = tk.StringVar()
+        self.entryFechaHistoria = tk.Entry(self.frameFechaHistoria, textvariable=self.svFechaHistoria, takefocus=False)
+        self.entryFechaHistoria.config(width=13, font=('ARIAL', 15))
+        self.entryFechaHistoria.grid(row=1, column=1, padx=5, pady=3)
+
+        #TRAER FECHA Y HORA ACTUAL
+        self.svFechaHistoria.set(datetime.today().strftime('%d/%m/%y %H:%M'))
+
+        # Vincular función al evento de clic con el mouse
+        self.entryFechaHistoria.bind("<Button-1>", self.editar_fecha)
+
+    
+        #BUTTONS AGREGA HISTORIA
+        self.btnAgregarHistoria = tk.Button(self.frameFechaHistoria, text='Agregar Historia', command=self.agregarHistorialMedico)
+        self.btnAgregarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000992', cursor='hand2', activebackground='#4E56C6')
+        self.btnAgregarHistoria.grid(row=2, column=0, padx=10, pady=5)
+
+        self.btnSalirAgregarHistoria = tk.Button(self.frameFechaHistoria, text='Salir', command=self.topAHistoria.destroy)
+        self.btnSalirAgregarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000000', cursor='hand2', activebackground='#646464')
+        self.btnSalirAgregarHistoria.grid(row=2, column=2, padx=10, pady=5)
+
+    def editar_fecha(self, event):
+        # Habilitar la edición del campo al hacer clic con el mouse
+        self.entryFechaHistoria.config(state=tk.NORMAL)    
+
+    def eliminarHistorialMedico(self):
+        try:
+            self.idHistoriaMedica = self.tablaHistoria.item(self.tablaHistoria.selection())['text']
+            eliminarHistoria(self.idHistoriaMedica)
+
+            self.idHistoriaMedica = None
+            self.topHistoriaMedica.destroy()
+        except Exception as e:
+                title = 'Eliminar Historia'
+                mensaje = 'Error al eliminar historia Medica'
+                with open('error_log.txt', 'a') as log_file:
+                    log_file.write(f"Eliminar Historia: {str(e)}\n")
+                    traceback.print_exc(file=log_file)  
+                messagebox.showerror(title, mensaje)    
+
+    def topEditarHistorialMedico(self):
+        try:
+            self.idHistoriaMedica = self.tablaHistoria.item(self.tablaHistoria.selection())['text']
+            self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1] 
+            self.motivoDeConsultaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][2] 
+            self.antecedenteDeEnfermedadActualEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][3] 
+            self.examenFisicoEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][4] 
+            self.tricoscopiaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][5] 
+            self.indicacionesEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][6] 
+            self.estudiosSolicitadosEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][7] 
+            self.tratamientoRealizadoEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][8]   
+
+            self.topEditarHistoria = Toplevel()
+            self.topEditarHistoria.title('EDITAR HISTORIA MEDICA')
+            self.topEditarHistoria.resizable(0,0)
+            self.topEditarHistoria.config(bg='#CDD8FF')
+
+            #FRAME EDITAR DATOS HISTORIA
+            self.frameEditarHistoria = tk.LabelFrame(self.topEditarHistoria)
+            self.frameEditarHistoria.config(bg='#CDD8FF')
+            self.frameEditarHistoria.pack(fill='both', expand='yes', padx=20, pady=10)
+
+            #LABEL EDITAR HISTORIA
+            self.lblMotivoDeConsultaEditar = tk.Label(self.frameEditarHistoria, text='Motivo de consulta', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblMotivoDeConsultaEditar.grid(row=0, column=0, padx=5, pady=3)
+
+            self.lblAntecdenteDeEnfermedadActualEditar = tk.Label(self.frameEditarHistoria, text='Antecedente de Enfermedad Actual', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblAntecdenteDeEnfermedadActualEditar.grid(row=2, column=0, padx=5, pady=3)
+
+            self.lblExamenFisicoEditar = tk.Label(self.frameEditarHistoria, text='Examen Fisico', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblExamenFisicoEditar.grid(row=4, column=0, padx=5, pady=3)
+
+            self.lblTricoscopiaEditar = tk.Label(self.frameEditarHistoria, text='Tricoscopia', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblTricoscopiaEditar.grid(row=6, column=0, padx=5, pady=3)
+
+            self.lblIndicacionesEditar = tk.Label(self.frameEditarHistoria, text='Indicaciones', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblIndicacionesEditar.grid(row=8, column=0, padx=5, pady=3)
+
+            self.lblEstudiosSolicitadosEditar = tk.Label(self.frameEditarHistoria, text='Estudios Solicitados', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblEstudiosSolicitadosEditar.grid(row=10, column=0, padx=5, pady=3)
+
+            self.lblTratamientoRealizadoEditar = tk.Label(self.frameEditarHistoria, text='Tratamiento Realizado', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblTratamientoRealizadoEditar.grid(row=12, column=0, padx=5, pady=3)
+                       
+
+            #ENTRY EDITAR HISTORIA      
+                               
+            self.svMotivoDeConsultaEditar = tk.StringVar()
+            self.entryMotivoDeConsultaEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svMotivoDeConsultaEditar)
+            self.entryMotivoDeConsultaEditar.config(width=60, font=('ARIAL', 15))
+            self.entryMotivoDeConsultaEditar.grid(row=1, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svAntecdenteDeEnfermedadActualEditar = tk.StringVar()
+            self.entryAntecedenteDeEnfermedadActualEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svAntecdenteDeEnfermedadActualEditar)
+            self.entryAntecedenteDeEnfermedadActualEditar.config(width=60, font=('ARIAL', 15))
+            self.entryAntecedenteDeEnfermedadActualEditar.grid(row=3, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svExamenFisicoEditar = tk.StringVar()
+            self.entryExamenFisicoEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svExamenFisicoEditar)
+            self.entryExamenFisicoEditar.config(width=60, font=('ARIAL', 15))
+            self.entryExamenFisicoEditar.grid(row=5, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svTricoscopiaEditar = tk.StringVar()
+            self.entryTricoscopiaEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svTricoscopiaEditar)
+            self.entryTricoscopiaEditar.config(width=60, font=('ARIAL', 15))
+            self.entryTricoscopiaEditar.grid(row=7, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svIndicacionesEditar = tk.StringVar()
+            self.entryIndicacionesEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svIndicacionesEditar)
+            self.entryIndicacionesEditar.config(width=60, font=('ARIAL', 15))
+            self.entryIndicacionesEditar.grid(row=9, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svEstudiosSolicitadosEditar = tk.StringVar()
+            self.entryEstudiosSolicitadosEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svEstudiosSolicitadosEditar)
+            self.entryEstudiosSolicitadosEditar.config(width=60, font=('ARIAL', 15))
+            self.entryEstudiosSolicitadosEditar.grid(row=11, column=0, padx=5, pady=3, columnspan=2)
+
+            self.svTratamientoRealizadoEditar = tk.StringVar()
+            self.entryTratamientoRealizadoEditar = tk.Entry(self.frameEditarHistoria, textvariable=self.svTratamientoRealizadoEditar)
+            self.entryTratamientoRealizadoEditar.config(width=60, font=('ARIAL', 15))
+            self.entryTratamientoRealizadoEditar.grid(row=13, column=0, padx=5, pady=3, columnspan=2)
+            
+
+            #FRAME FECHA EDITAR
+            self.frameFechaEditar = tk.LabelFrame(self.topEditarHistoria)
+            self.frameFechaEditar.config(bg='#CDD8FF')
+            self.frameFechaEditar.pack(fill='both', expand='yes', padx=20, pady=10)
+            
+            #LABEL FECHA EDITAR
+            self.lblFechaHistoriaEditar = tk.Label(self.frameFechaEditar, text='Fecha y Hora', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+            self.lblFechaHistoriaEditar.grid(row=1, column=0, padx=5, pady=3, columnspan=2)
+
+            #ENTRY FECHA EDITAR
+            self.svFechaHistoriaEditar = tk.StringVar()
+            self.entryFechaHistoriaEditar = tk.Entry(self.frameFechaEditar, textvariable=self.svFechaHistoriaEditar)
+            self.entryFechaHistoriaEditar.config(width=13, font=('ARIAL', 15))
+            self.entryFechaHistoriaEditar.grid(row=1, column=2, pady=3, padx=5)
+                             
+              
+            #INSERTAR LOS VALORES A LOS ENTRYS
+            self.entryMotivoDeConsultaEditar.insert(0, self.motivoDeConsultaHistoriaEditar)
+            self.entryAntecedenteDeEnfermedadActualEditar.insert(0, self.antecedenteDeEnfermedadActualEditar)
+            self.entryExamenFisicoEditar.insert(0, self.examenFisicoEditar)
+            self.entryTricoscopiaEditar.insert(0, self.tricoscopiaEditar)
+            self.entryIndicacionesEditar.insert(0, self.indicacionesEditar)
+            self.entryEstudiosSolicitadosEditar.insert(0, self.estudiosSolicitadosEditar)
+            self.entryTratamientoRealizadoEditar.insert(0, self.tratamientoRealizadoEditar)
+            self.entryFechaHistoriaEditar.insert(0, self.fechaHistoriaEditar)
+
+            #BUTTON EDITAR HISTORIA
+
+            self.btnEditarHistoriaMedica = tk.Button(self.frameFechaEditar, text='Editar Historia', command=self.historiaMedicaEditar)
+            self.btnEditarHistoriaMedica.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#030058', cursor='hand2', activebackground='#8986DA')
+            self.btnEditarHistoriaMedica.grid(row=2, column=0, padx=10, pady=5)
+
+            self.btnSalirHistoriaMedica = tk.Button(self.frameFechaEditar, text='Salir', command=self.topEditarHistoria.destroy)
+            self.btnSalirHistoriaMedica.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#000000', cursor='hand2', activebackground='#676767')
+            self.btnSalirHistoriaMedica.grid(row=2, column=2, padx=10, pady=5)
+
+            if self.idHistoriaMedicaEditar == None:
+                self.idHistoriaMedicaEditar = self.idHistoriaMedica
+
+            self.idHistoriaMedica = None
+
+        except Exception as e:
+                title = 'Editar Historia'
+                mensaje = 'Error al editar historia Medica'
+                with open('error_log.txt', 'a') as log_file:
+                    log_file.write(f"Editar Historia: {str(e)}\n")
+                    traceback.print_exc(file=log_file)  
+                messagebox.showerror(title, mensaje) 
+    
+
+    def agregarHistorialMedico(self):
+         try:
+             if self.idHistoriaMedica == None:
+                 guardarHistoria(
+                     self.idPersonaHistoria,
+                     self.svFechaHistoria.get(),
+                     self.svMotivoDeConsultaHistoria.get(),
+                     self.svAntecedenteDeEnfermedadActualHistoria.get(),
+                     self.svExamenFisicoHistoria.get(),
+                     self.svTricoscopiaHistoria.get(),
+                     self.svIndicacionesHistoria.get(),
+                     self.svEstudiosSolicitadosHistoria.get(),
+                     self.svTratamientoRealizadoHistoria.get()
+                 )
+             self.topAHistoria.destroy()
+             self.topHistoriaMedica.destroy()
+         except Exception as e:
+                title = 'Agregar Historia'
+                mensaje = 'Error al agregar historia Medica'
+                with open('error_log.txt', 'a') as log_file:
+                    log_file.write(f"Agregar Historia: {str(e)}\n")
+                    traceback.print_exc(file=log_file)  
+                messagebox.showerror(title, mensaje)
+
+    def historiaMedicaEditar(self):
+        try:
+            editarHistoria(self.svFechaHistoriaEditar.get(), self.svMotivoDeConsultaEditar.get(), self.svAntecdenteDeEnfermedadActualEditar.get(), self.svExamenFisicoEditar.get(), self.svTricoscopiaEditar.get(), self.svIndicacionesEditar.get(), self.svEstudiosSolicitadosEditar.get(), self.svTratamientoRealizadoEditar.get(), self.idHistoriaMedicaEditar)
+            self.idHistoriaMedicaEditar = None
+            self.idHistoriaMedica = None
+            self.topEditarHistoria.destroy()
+            self.topHistoriaMedica.destroy()
+        except Exception as e:
+                title = 'Editar Historia'
+                mensaje = 'Error al editar historia Medica'
+                with open('error_log.txt', 'a') as log_file:
+                    log_file.write(f"Editar Historia: {str(e)}\n")
+                    traceback.print_exc(file=log_file)  
+                messagebox.showerror(title, mensaje)  
+                self.topEditarHistoria.destroy() 
+
+
+
+    def salirTop(self):
+        self.topHistoriaMedica.destroy()        
 
     def editarPaciente(self):
         try:

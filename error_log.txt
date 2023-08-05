@@ -1,0 +1,76 @@
+Error inesperado: unknown color name ""CDD8FF"
+Error inesperado: unknown color name ""CDD8FF"
+Error inesperado: unknown color name "CDD8FF"
+Error inesperado: '>' not supported between instances of 'str' and 'int'
+Error inesperado: '>' not supported between instances of 'str' and 'int'
+Error inesperado: '>' not supported between instances of 'str' and 'int'
+Error inesperado: '>' not supported between instances of 'str' and 'int'
+Agregar Historia: 'Frame' object has no attribute 'idHistoriaMedica'
+Agregar Historia: Incorrect number of bindings supplied. The current statement uses 9, and there are 0 supplied.
+Agregar Historia: Incorrect number of bindings supplied. The current statement uses 9, and there are 0 supplied.
+Agregar Historia: unrecognized token: "'ghjk)"
+Agregar Historia: unrecognized token: "'jklh)"
+Traceback (most recent call last):
+  File "C:\Users\matia\Desktop\proyectoHistorial\modelo\historiaMedicaDao.py", line 26, in guardarHistoria
+    conexion.cursor.execute(sql)
+sqlite3.OperationalError: unrecognized token: "'jklh)"
+Agregar Historia: unrecognized token: "'Mesoterapia)"
+Traceback (most recent call last):
+  File "C:\Users\matia\Desktop\proyectoHistorial\modelo\historiaMedicaDao.py", line 26, in guardarHistoria
+    conexion.cursor.execute(sql)
+sqlite3.OperationalError: unrecognized token: "'Mesoterapia)"
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 601, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: 'Frame' object has no attribute 'entryFechaHistoriaEditar'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 703, in topEditarHistorialMedico
+    self.entryFechaHistoriaEditar.insert(0, self.fechaHistoriaEditar)
+AttributeError: 'Frame' object has no attribute 'entryFechaHistoriaEditar'
+Editar Historia: 'Frame' object has no attribute 'svFechaHistoria'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 757, in historiaMedicaEditar
+    editarHistoria(self.svFechaHistoria.get(), self.svMotivoDeConsultaEditar.get(), self.svAntecdenteDeEnfermedadActualEditar.get(), self.svExamenFisicoEditar.get(), self.svTricoscopiaEditar.get(), self.svIndicaciones.get(), self.svEstudiosSolicitadosEditar.get(), self.svTratamientoRealizadoEditar.get(), self.idHistoriaMedicaEditar)
+AttributeError: 'Frame' object has no attribute 'svFechaHistoria'
+Editar Historia: 'Frame' object has no attribute 'svIndicaciones'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 757, in historiaMedicaEditar
+    editarHistoria(self.svFechaHistoriaEditar.get(), self.svMotivoDeConsultaEditar.get(), self.svAntecdenteDeEnfermedadActualEditar.get(), self.svExamenFisicoEditar.get(), self.svTricoscopiaEditar.get(), self.svIndicaciones.get(), self.svEstudiosSolicitadosEditar.get(), self.svTratamientoRealizadoEditar.get(), self.idHistoriaMedicaEditar)
+AttributeError: 'Frame' object has no attribute 'svIndicaciones'
+Editar Historia: type object 'ConexionDB' has no attribute 'cursor'
+Traceback (most recent call last):
+  File "C:\Users\matia\Desktop\proyectoHistorial\modelo\historiaMedicaDao.py", line 61, in editarHistoria
+    conexion.cursor.execute(sql)
+AttributeError: type object 'ConexionDB' has no attribute 'cursor'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 606, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range

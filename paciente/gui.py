@@ -209,6 +209,7 @@ class Frame(tk.Frame):
         self.topCalendario = Toplevel()
         self.topCalendario.title("FECHA DE NACIMIENTO")
         self.topCalendario.resizable(0,0)
+        self.topCalendario.iconbitmap('img/registro.ico')
         self.topCalendario.config(bg='#CDD8FF')
 
         default_date = date(1990, 1, 1).strftime('%d/%m/%Y')
@@ -275,7 +276,6 @@ class Frame(tk.Frame):
         self.topCalendario.destroy()
 
     def habilitar(self):
-        # self.idPersona = None
         self.svNombre.set('')
         self.svApellido.set('')
         self.svDni.set('')
@@ -424,6 +424,7 @@ class Frame(tk.Frame):
             self.topHistoriaMedica = Toplevel()
             self.topHistoriaMedica.title('HISTORIAL MEDICO')
             self.topHistoriaMedica.resizable(0,0)
+            self.topHistoriaMedica.iconbitmap('img/registro.ico')
             self.topHistoriaMedica.config(bg='#CDD8FF')
 
             self.listaHistoria = listarHistoria(idPersona)  
@@ -460,9 +461,8 @@ class Frame(tk.Frame):
 
             for p in self.listaHistoria:
                 self.tablaHistoria.insert('',0, text=p[0], values=(p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]))       
-                 
-                               
-                   
+                                               
+                  
             self.btnGuardarHistoria = tk.Button(self.topHistoriaMedica, text='Agregar Historia', command=self.topAgregarHistoria)
             self.btnGuardarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#002771',cursor='hand2', activebackground='#7198E0')    
             self.btnGuardarHistoria.grid(row=2, column=0, padx=10, pady=5)
@@ -488,6 +488,7 @@ class Frame(tk.Frame):
         self.topAHistoria = Toplevel()
         self.topAHistoria.title('AGREGAR HISTORIA')
         self.topAHistoria.resizable(0,0)
+        self.topAHistoria.iconbitmap('img/registro.ico')
         self.topAHistoria.config(bg='#CDD8FF')
         #FRAME 1
         self.frameDatosHistoria = tk.LabelFrame(self.topAHistoria)
@@ -619,6 +620,7 @@ class Frame(tk.Frame):
             self.topEditarHistoria = Toplevel()
             self.topEditarHistoria.title('EDITAR HISTORIA MEDICA')
             self.topEditarHistoria.resizable(0,0)
+            self.topEditarHistoria.iconbitmap('img/registro.ico')
             self.topEditarHistoria.config(bg='#CDD8FF')
 
             #FRAME EDITAR DATOS HISTORIA
@@ -833,15 +835,4 @@ class Frame(tk.Frame):
             messagebox.showinfo(title, mensaje)   
 
 
-
-
-        
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title('Registro de Historia Clínica')
-    root.resizable(0,0)
-    app = Frame(root)
-    root.mainloop()
 

@@ -10,10 +10,6 @@ def editarDatoPaciente(persona, idPersona):
             title = 'Editar Paciente'
             mensaje = 'Paciente Editado Exitosamente'
             messagebox.showinfo(title, mensaje)
-        # except:
-        #     title = 'Editar Paciente'
-        #     mensaje = 'Error al editar paciente'
-        #     messagebox.showinfo(title, mensaje)
         except Exception as e:
             title = 'Editar Paciente - Error'
             mensaje = f'Error al editar paciente: {e}'

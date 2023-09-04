@@ -1,6 +1,8 @@
 from .conexion import ConexionDB
 from tkinter import messagebox
 import traceback
+import tkinter as tk
+from tkinter import ttk
 
 def listarHistoria(idPersona):
     conexion = ConexionDB()
@@ -87,4 +89,16 @@ class historiaMedica:
     def __str__(self):
         return f'historiaMedica[{self.idPersona},{self.fechaHistoria},{self.motivoDeConsulta},{self.antecedenteDeEnfermedadActual},{self.examenFisico},{self.tricoscopia},{self.indicaciones},{self.estudiosSolicitados},{self.tratamientoRealizado}]'
 
-    
+class ScrolledFrame(tk.LabelFrame):
+        def __init__(self, parent, *args, **kwargs):
+            super().__init__(parent, *args, **kwargs)
+            self.canvas = tk.Canvas(self, bg='#CDD8FF')
+            self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+            self.scrollable_frame = tk.Frame(self.canvas, bg='#CDD8FF')
+
+            self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+            self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+            self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+            self.canvas.pack(side="left", fill="both", expand=True)
+            self.scrollbar.pack(side="right", fill="y")   

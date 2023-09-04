@@ -74,3 +74,257 @@ Traceback (most recent call last):
   File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 606, in topEditarHistorialMedico
     self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
 IndexError: string index out of range
+Editar Historia: cannot use geometry manager grid inside .!toplevel4.!scrolledframe which already has slaves managed by pack
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 647, in topEditarHistorialMedico
+    self.lblMotivoDeConsultaEditar.grid(row=0, column=0, padx=5, pady=3)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 2522, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!toplevel4.!scrolledframe which already has slaves managed by pack
+Editar Historia: 'ScrolledFrame' object has no attribute 'scrollable_framea'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 675, in topEditarHistorialMedico
+    self.lblExamenFisicoEditar = tk.Label(self.frameEditarHistoria.scrollable_framea, text='Examen Fisico', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+AttributeError: 'ScrolledFrame' object has no attribute 'scrollable_framea'
+Editar Historia: 'ScrolledFrame' object has no attribute 'scrollable_framee'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 767, in topEditarHistorialMedico
+    self.entryIndicacionesEditar = tk.Entry(self.frameEditarHistoria_scrollable.scrollable_framee, textvariable=self.svIndicacionesEditar)
+AttributeError: 'ScrolledFrame' object has no attribute 'scrollable_framee'
+Editar Historia: 'Frame' object has no attribute 'frameDatosHistoriae'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 772, in topEditarHistorialMedico
+    self.entryIndicacionesEditar = tk.Entry(self.fraEditar Historia: 'Frame' object has no attribute 'frameDatosHistoria'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 680, in topEditarHistorialMedico
+    self.lblMotivoDeConsultaEditar = tk.Label(self.frameDatosHistoria, text='Motivo de consulta', width=30, font=('ARIAL', 15, 'bold'), bg='#CDD8FF')
+AttributeError: 'Frame' object has no attribute 'frameDatosHistoria'
+meDatosHistoriae, textvariable=self.svIndicacionesEditar)
+AttributeError: 'Frame' object has no attribute 'frameDatosHistoriae'
+Editar Historia: 'Frame' object has no attribute 'frameDatosHistoriae'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 772, in topEditarHistorialMedico
+    self.entryIndicacionesEditar = tk.Entry(self.frameDatosHistoriae, textvariable=self.svIndicacionesEditar)
+AttributeError: 'Frame' object has no attribute 'frameDatosHistoriae'
+Editar Historia: 'Frame' object has no attribute 'frameDatosHistoriae'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 772, in topEditarHistorialMedico
+    self.entryIndicacionesEditar = tk.Entry(self.frameDatosHistoriae, textvariable=self.svIndicacionesEditar)
+AttributeError: 'Frame' object has no attribute 'frameDatosHistoriae'
+Historia Medica: 'Frame' object has no attribute 'xview'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 449, in historiaMedica
+    xscrollbar.config(command=self.framePrincipal.xview)
+AttributeError: 'Frame' object has no attribute 'xview'
+Historia Medica: 'Frame' object has no attribute 'xview'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 453, in historiaMedica
+    xscrollbar.config(command=self.framePrincipal.xview)
+AttributeError: 'Frame' object has no attribute 'xview'
+Editar Historia: name 'root' is not defined
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 761, in topEditarHistorialMedico
+    self.entryMotivoDeConsultaEditar = tk.Entry(scrolledtext.ScrolledText(root, height=2, wrap=tk.WORD, font=("Helvetica", 14)))
+NameError: name 'root' is not defined
+Editar Historia: unknown option "-wrap"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 674, in topEditarHistorialMedico
+    self.frameDatosHistoria = tk.Frame(self.frameEditarHistoria_scrollable.scrollable_frame, height=2, wrap=tk.WORD, bg='#CDD8FF')
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 3163, in __init__
+    Widget.__init__(self, master, 'frame', cnf, {}, extra)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 2601, in __init__
+    self.tk.call(
+_tkinter.TclError: unknown option "-wrap"
+Editar Historia: unknown option "-height"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 762, in topEditarHistorialMedico
+    self.entryMotivoDeConsultaEditar.config(width=60, font=('ARIAL', 15),height=5)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1675, in configure
+    return self._configure('configure', cnf, kw)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1665, in _configure
+    self.tk.call(_flatten((self._w, cmd)) + self._options(cnf))
+_tkinter.TclError: unknown option "-height"
+Editar Historia: 'Frame' object has no attribute 'entryMotivoDeConsultaEditar'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 820, in topEditarHistorialMedico
+    self.entryMotivoDeConsultaEditar.insert(0, self.motivoDeConsultaHistoriaEditar)
+AttributeError: 'Frame' object has no attribute 'entryMotivoDeConsultaEditar'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 640, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 422, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 422, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Editar Historia: 'Frame' object has no attribute 'textMotivoDeConsultaEditar'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 770, in topEditarHistorialMedico
+    self.textMotivoDeConsultaEditar.grid(row=1, column=0, padx=5, pady=3, columnspan=2)
+AttributeError: 'Frame' object has no attribute 'textMotivoDeConsultaEditar'
+Historia Medica: 'Frame' object has no attribute 'mostrar_detalles'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 441, in historiaMedica
+    self.tablaHistoria.bind('<Double-1>', self.mostrar_detalles)#******************************************************************
+AttributeError: 'Frame' object has no attribute 'mostrar_detalles'
+Historia Medica: 'Frame' object has no attribute 'mostrar_detalles_columna'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 442, in historiaMedica
+    self.tablaHistoria.bind('<Button-1>', self.mostrar_detalles_columna)#******************************************************************
+AttributeError: 'Frame' object has no attribute 'mostrar_detalles_columna'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 643, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 422, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: bad text index "0"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 834, in topEditarHistorialMedico
+    self.entryMotivoDeConsultaEditar.insert(0, self.motivoDeConsultaHistoriaEditar)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 3782, in insert
+    self.tk.call((self._w, 'insert', index, chars) + args)
+_tkinter.TclError: bad text index "0"
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: Error: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 658, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 429, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 429, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 669, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Historia Medica: unknown option "-yscrollcommand"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 787, in historiaMedica
+    self.topHistoriaMedica.configure(yscrollcommand=self.scrollbary.set, xscrollcommand=self.scrollbarx.set)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1675, in configure
+    return self._configure('configure', cnf, kw)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1665, in _configure
+    self.tk.call(_flatten((self._w, cmd)) + self._options(cnf))
+_tkinter.TclError: unknown option "-yscrollcommand"
+Historia Medica: 'Treeview' object has no attribute 'xviewview'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 798, in historiaMedica
+    self.scrollHistoria = ttk.Scrollbar(self.topHistoriaMedica, orient='horizontal', command=self.tablaHistoria.xviewview)
+AttributeError: 'Treeview' object has no attribute 'xviewview'
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 772, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Historia Medica: '>' not supported between instances of 'str' and 'int'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 772, in historiaMedica
+    if (self.idPersona > 0):
+TypeError: '>' not supported between instances of 'str' and 'int'
+Editar Paciente: 'Frame' object has no attribute 'svNombre'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 1456, in editarPaciente
+    self.habilitar()
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 570, in habilitar
+    self.svNombre.set('')
+AttributeError: 'Frame' object has no attribute 'svNombre'
+Editar Paciente: invalid command name ".!toplevel.!labelframe.!entry"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 1456, in editarPaciente
+    self.habilitar()
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 584, in habilitar
+    self.entryNombre.config(state='normal')
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1675, in configure
+    return self._configure('configure', cnf, kw)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1665, in _configure
+    self.tk.call(_flatten((self._w, cmd)) + self._options(cnf))
+_tkinter.TclError: invalid command name ".!toplevel.!labelframe.!entry"
+Editar Paciente: invalid command name ".!toplevel.!labelframe.!entry"
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 1456, in editarPaciente
+    self.habilitar()
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 584, in habilitar
+    self.entryNombre.config(state='normal')
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1675, in configure
+    return self._configure('configure', cnf, kw)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\tkinter\__init__.py", line 1665, in _configure
+    self.tk.call(_flatten((self._w, cmd)) + self._options(cnf))
+_tkinter.TclError: invalid command name ".!toplevel.!labelframe.!entry"
+Editar Paciente: 'Frame' object has no attribute 'btnCalendario'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 1456, in editarPaciente
+    self.habilitar()
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 600, in habilitar
+    self.btnCalendario.config(state='normal')
+AttributeError: 'Frame' object has no attribute 'btnCalendario'
+Editar Paciente: 'Frame' object has no attribute 'svNombre'
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 1456, in editarPaciente
+    self.habilitar()
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 570, in habilitar
+    self.svNombre.set('')
+AttributeError: 'Frame' object has no attribute 'svNombre'
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 821, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
+Editar Historia: string index out of range
+Traceback (most recent call last):
+  File "c:\Users\matia\Desktop\proyectoHistorial\paciente\gui.py", line 694, in topEditarHistorialMedico
+    self.fechaHistoriaEditar = self.tablaHistoria.item(self.tablaHistoria.selection())['values'][1]
+IndexError: string index out of range
